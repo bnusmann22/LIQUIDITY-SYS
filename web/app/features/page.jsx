@@ -1,4 +1,4 @@
-import GlassCard from '../../../components/GlassCard';
+import GlassCard from '../../../shared/components/GlassCard';
 import { Clock, TrendingUp, AlertTriangle, BarChart3, Zap, Shield } from 'lucide-react';
 
 const features = [

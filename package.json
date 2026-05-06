@@ -4,13 +4,17 @@
   "private": true,
   "workspaces": [
     "backend",
-    "frontend"
+    "frontend",
+    "web"
   ],
   "scripts": {
-    "dev": "concurrently \"npm run dev --workspace backend\" \"npm run dev --workspace frontend\"",
+    "dev": "concurrently \"npm run dev --workspace backend\" \"npm run dev --workspace frontend\" \"npm run dev --workspace web\"",
+    "dev:all": "concurrently \"npm run dev --workspace backend\" \"npm run dev --workspace frontend\" \"npm run dev --workspace web\"",
     "backend": "npm run dev --workspace backend",
     "frontend": "npm run dev --workspace frontend",
+    "web": "npm run dev --workspace web",
     "build": "npm run build --workspace frontend",
+    "build:web": "npm run build --workspace web",
     "start": "npm run start --workspace backend"
   },
   "overrides": {

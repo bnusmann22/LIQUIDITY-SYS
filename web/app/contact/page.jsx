@@ -1,5 +1,5 @@
-import GlassCard from '../../../components/GlassCard';
-import GlassButton from '../../../components/GlassButton';
+import GlassCard from '../../../shared/components/GlassCard';
+import GlassButton from '../../../shared/components/GlassButton';
 
 export default function ContactPage() {
   return (
