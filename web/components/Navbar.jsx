@@ -4,6 +4,17 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { Menu, X } from 'lucide-react';
 
+const getDashboardUrl = () => {
+  // Check if we're in production (Vercel deployment)
+  const isProduction = typeof window !== 'undefined' &&
+    (window.location.hostname.includes('vercel.app') ||
+     window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1');
+
+  return isProduction
+    ? 'https://liquidity-system.vercel.app/'
+    : 'http://localhost:3000';
+};
+
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -32,7 +43,7 @@ export default function Navbar() {
             <Link href="/contact" className="text-text hover:text-green transition-colors text-sm">
               Contact
             </Link>
-            <Link href="http://localhost:3000" target="_blank" className="glass-1 glass-border px-3 py-2 rounded-lg text-text hover:glass-2 transition-all text-xs min-h-[36px] flex items-center">
+            <Link href={getDashboardUrl()} target="_blank" className="glass-1 glass-border px-3 py-2 rounded-lg text-text hover:glass-2 transition-all text-xs min-h-[36px] flex items-center">
               Open Dashboard
             </Link>
           </div>
@@ -76,7 +87,7 @@ export default function Navbar() {
             </Link>
             <div className="pt-3 border-t border-border">
               <Link
-                href="http://localhost:3000"
+                href={getDashboardUrl()}
                 target="_blank"
                 className="block glass-1 glass-border px-3 py-2 rounded-lg text-text hover:glass-2 transition-all text-center font-medium text-sm min-h-[36px] flex items-center justify-center"
                 onClick={() => setIsMenuOpen(false)}

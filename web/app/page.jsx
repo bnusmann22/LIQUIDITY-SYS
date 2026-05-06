@@ -1,5 +1,18 @@
+'use client';
+
 import Link from 'next/link';
 import GlassCard from '@shared/components/GlassCard';
+
+const getDashboardUrl = () => {
+  // Check if we're in production (Vercel deployment)
+  const isProduction = typeof window !== 'undefined' &&
+    (window.location.hostname.includes('vercel.app') ||
+     window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1');
+
+  return isProduction
+    ? 'https://liquidity-system.vercel.app/'
+    : 'http://localhost:3000';
+};
 
 export default function LandingPage() {
   return (
@@ -14,7 +27,7 @@ export default function LandingPage() {
             Real-time decision system for liquidity management under uncertainty.
             Monitor cash flows, predict gaps, and execute automated actions.
           </p>
-          <Link href="http://localhost:3000" target="_blank" className="inline-block glass-1 glass-border px-8 py-4 rounded-lg text-text hover:glass-2 transition-all font-semibold text-sm sm:text-base min-h-[44px]">
+          <Link href={getDashboardUrl()} target="_blank" className="inline-block glass-1 glass-border px-8 py-4 rounded-lg text-text hover:glass-2 transition-all font-semibold text-sm sm:text-base min-h-[44px]">
             Access Dashboard
           </Link>
         </section>
