@@ -1,20 +1,25 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import GlassCard from '@shared/components/GlassCard';
 
-const getDashboardUrl = () => {
-  // Check if we're in production (Vercel deployment)
-  const isProduction = typeof window !== 'undefined' &&
-    (window.location.hostname.includes('vercel.app') ||
-     window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1');
+const getDashboardUrl = (): string => {
+  if (typeof window === 'undefined') return 'https://liquidity-system.vercel.app/';
 
-  return isProduction
-    ? 'https://liquidity-system.vercel.app/'
-    : 'http://localhost:3000';
+  const { hostname } = window.location;
+  const isLocal = hostname === 'localhost' || hostname === '127.0.0.1';
+
+  return isLocal ? 'http://localhost:3000' : 'https://liquidity-system.vercel.app/';
 };
 
 export default function LandingPage() {
+  const [dashboardUrl, setDashboardUrl] = useState('https://liquidity-system.vercel.app/');
+
+  useEffect(() => {
+    setDashboardUrl(getDashboardUrl());
+  }, []);
+
   return (
     <div className="min-h-screen flex items-center justify-center px-4 sm:px-8 py-8 sm:py-16">
       <div className="w-full max-w-4xl space-y-6 sm:space-y-8">
@@ -27,7 +32,11 @@ export default function LandingPage() {
             Real-time decision system for liquidity management under uncertainty.
             Monitor cash flows, predict gaps, and execute automated actions.
           </p>
-          <Link href={getDashboardUrl()} target="_blank" className="inline-block glass-1 glass-border px-8 py-4 rounded-lg text-text hover:glass-2 transition-all font-semibold text-sm sm:text-base min-h-[44px]">
+          <Link
+            href={dashboardUrl}
+            target="_blank"
+            className="inline-block glass-1 glass-border px-8 py-4 rounded-lg text-text hover:glass-2 transition-all font-semibold text-sm sm:text-base min-h-[44px]"
+          >
             Access Dashboard
           </Link>
         </section>
@@ -57,13 +66,19 @@ export default function LandingPage() {
           <h2 className="text-xl sm:text-2xl font-bold text-center mb-4 sm:mb-6">Core Capabilities</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
             <GlassCard title="Real-time Monitoring" className="text-center p-3 sm:p-4">
-              <p className="text-xs sm:text-sm text-muted">Continuous surveillance of cash positions, inflows, and outflows with millisecond precision.</p>
+              <p className="text-xs sm:text-sm text-muted">
+                Continuous surveillance of cash positions, inflows, and outflows with millisecond precision.
+              </p>
             </GlassCard>
             <GlassCard title="Predictive Analytics" className="text-center p-3 sm:p-4">
-              <p className="text-xs sm:text-sm text-muted">Machine learning models forecast liquidity gaps and identify potential stress scenarios.</p>
+              <p className="text-xs sm:text-sm text-muted">
+                Machine learning models forecast liquidity gaps and identify potential stress scenarios.
+              </p>
             </GlassCard>
             <GlassCard title="Automated Actions" className="text-center p-3 sm:p-4">
-              <p className="text-xs sm:text-sm text-muted">Execute liquidity management decisions automatically based on predefined rules and AI recommendations.</p>
+              <p className="text-xs sm:text-sm text-muted">
+                Execute liquidity management decisions automatically based on predefined rules and AI recommendations.
+              </p>
             </GlassCard>
           </div>
         </section>
