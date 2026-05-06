@@ -11,7 +11,8 @@ import Sidebar from "../components/Sidebar";
 import Topbar from "../components/Topbar";
 import MetricCard from "../components/MetricCard";
 import StatusBadge from "../components/StatusBadge";
-import { API_BASE, executeAction, fetchConfig, fetchSnapshot, injectOutflowSpike } from "../lib/api";
+import { API_BASE, executeAction, fetchConfig, fetchSnapshot, injectOutflowSpike } from "@shared/lib/api";
+import { useRouter } from "next/navigation";
 
 const views = ["command", "engines", "events", "stress"];
 const modeLabels = {
@@ -29,6 +30,13 @@ export default function DashboardPage() {
   const [clock, setClock] = useState("");
   const [auditLine, setAuditLine] = useState("All actions are recorded with event lineage.");
   const [error, setError] = useState("");
+  const router = useRouter();
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    document.cookie = "token=; path=/; max-age=0";
+    router.push("/login");
+  };
 
   useEffect(() => {
     const timer = setInterval(() => setClock(new Date().toLocaleTimeString()), 1000);
@@ -37,21 +45,43 @@ export default function DashboardPage() {
   }, []);
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      router.push("/login");
+      return;
+    }
+
     fetchConfig()
       .then(setConfig)
-      .catch((err) => setError(err.message));
-  }, []);
+      .catch((err) => {
+        if (err.message === "Unauthorized") {
+          localStorage.removeItem("token");
+          router.push("/login");
+        } else {
+          setError(err.message);
+        }
+      });
+  }, [router]);
 
   useEffect(() => {
     let closed = false;
+    const token = localStorage.getItem("token");
+    if (!token) return;
 
     fetchSnapshot(mode, scenario)
       .then((data) => {
         if (!closed) setSnapshot(data);
       })
-      .catch((err) => setError(err.message));
+      .catch((err) => {
+        if (err.message === "Unauthorized") {
+          localStorage.removeItem("token");
+          router.push("/login");
+        } else {
+          setError(err.message);
+        }
+      });
 
-    const stream = new EventSource(`${API_BASE}/api/stream?mode=${mode}&scenario=${scenario}`);
+    const stream = new EventSource(`${API_BASE}/api/stream?mode=${mode}&scenario=${scenario}&token=${token}`);
     stream.addEventListener("snapshot", (event) => {
       setSnapshot(JSON.parse(event.data));
       setError("");
@@ -62,7 +92,7 @@ export default function DashboardPage() {
       closed = true;
       stream.close();
     };
-  }, [mode, scenario]);
+  }, [mode, scenario, router]);
 
   const topAction = snapshot?.recommendations?.[0]?.action ?? "no_action";
   const scenarioLabel = config?.scenarios?.[scenario]?.label ?? "Bank Run";
@@ -102,7 +132,7 @@ export default function DashboardPage() {
   return (
     <div className="min-h-screen bg-bg text-text">
       <Sidebar view={view} setView={setView} mode={mode} setMode={setMode} config={config} />
-      <Topbar clock={clock} mode={mode} scenarioLabel={scenarioLabel} />
+      <Topbar clock={clock} mode={mode} scenarioLabel={scenarioLabel} onLogout={handleLogout} />
       <main className="ml-60 mt-16 p-6">
         {error ? <GlassCard className="mb-4 border-l-red glass-border"><p className="text-sm text-red">{error}</p></GlassCard> : null}
 

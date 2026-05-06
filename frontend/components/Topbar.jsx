@@ -1,6 +1,7 @@
 import React from 'react';
+import GlassButton from '@shared/components/GlassButton';
 
-const Topbar = ({ clock, mode, scenarioLabel }) => {
+const Topbar = ({ clock, mode, scenarioLabel, onLogout }) => {
   return (
     <header className="fixed top-0 left-60 right-0 h-16 backdrop-blur-xl bg-[rgba(10,15,25,0.6)] border-b border-border px-6 flex items-center justify-between z-10">
       <div className="flex items-center gap-4">
@@ -15,6 +16,9 @@ const Topbar = ({ clock, mode, scenarioLabel }) => {
         <div className="glass-1 glass-border px-3 py-1 rounded-full text-xs font-bold text-text">
           {scenarioLabel || 'Normal'}
         </div>
+        <GlassButton onClick={onLogout} variant="ghost" className="text-sm">
+          Logout
+        </GlassButton>
       </div>
     </header>
   );

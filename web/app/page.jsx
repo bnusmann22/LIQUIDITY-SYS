@@ -13,7 +13,7 @@ export default function LandingPage() {
           Real-time decision system for liquidity management under uncertainty.
           Monitor cash flows, predict gaps, and execute automated actions.
         </p>
-        <Link href="/" className="inline-block glass-1 glass-border px-8 py-4 rounded-lg text-text hover:glass-2 transition-all font-semibold">
+        <Link href="http://localhost:3000" target="_blank" className="inline-block glass-1 glass-border px-8 py-4 rounded-lg text-text hover:glass-2 transition-all font-semibold">
           Access Dashboard
         </Link>
       </section>
