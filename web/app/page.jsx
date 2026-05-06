@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import GlassCard from '@shared/components/GlassCard';
 
-const getDashboardUrl = (): string => {
+const getDashboardUrl = () => {
   if (typeof window === 'undefined') return 'https://liquidity-system.vercel.app/';
 
   const { hostname } = window.location;
