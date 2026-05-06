@@ -50,54 +50,56 @@ const dataSources = [
 
 export default function FeaturesPage() {
   return (
-    <div className="space-y-16">
-      <section className="text-center space-y-4">
-        <h1 className="text-4xl font-black text-text">Platform Features</h1>
-        <p className="text-lg text-muted max-w-3xl mx-auto">
-          Comprehensive liquidity intelligence powered by specialized engines
-          working together to provide real-time insights and automated decision support.
-        </p>
-      </section>
-
-      <section>
-        <h2 className="text-2xl font-bold mb-8">Core Engines</h2>
-        <div className="grid grid-cols-3 gap-6 max-[1080px]:grid-cols-2 max-[720px]:grid-cols-1">
-          {features.map((feature) => {
-            const Icon = feature.icon;
-            return (
-              <GlassCard key={feature.title} className="text-center">
-                <Icon size={48} className="mx-auto mb-4 text-green" />
-                <h3 className="text-xl font-bold mb-2">{feature.title}</h3>
-                <p className="text-muted mb-4">{feature.description}</p>
-                <ul className="text-left space-y-1">
-                  {feature.functions.map((func) => (
-                    <li key={func} className="text-sm text-muted flex items-center">
-                      <div className="w-1 h-1 bg-green rounded-full mr-2"></div>
-                      {func}
-                    </li>
-                  ))}
-                </ul>
-              </GlassCard>
-            );
-          })}
-        </div>
-      </section>
-
-      <section>
-        <h2 className="text-2xl font-bold mb-8">Data Integration</h2>
-        <GlassCard>
-          <p className="text-lg mb-6 text-center">
-            Seamless integration with multiple data sources for comprehensive liquidity visibility.
+    <div className="min-h-screen flex items-center justify-center px-8 py-16">
+      <div className="w-full max-w-4xl space-y-8">
+        <section className="text-center space-y-4">
+          <h1 className="text-3xl font-black text-text">Platform Features</h1>
+          <p className="text-base text-muted max-w-2xl mx-auto">
+            Comprehensive liquidity intelligence powered by specialized engines
+            working together to provide real-time insights and automated decision support.
           </p>
-          <div className="grid grid-cols-3 gap-4 max-[720px]:grid-cols-1">
-            {dataSources.map((source) => (
-              <div key={source} className="glass-1 glass-border p-4 rounded-lg text-center">
-                <div className="font-semibold text-text">{source}</div>
-              </div>
-            ))}
+        </section>
+
+        <section>
+          <h2 className="text-xl font-bold mb-6">Core Engines</h2>
+          <div className="grid grid-cols-3 gap-4 max-[1080px]:grid-cols-2 max-[720px]:grid-cols-1">
+            {features.map((feature) => {
+              const Icon = feature.icon;
+              return (
+                <GlassCard key={feature.title} className="text-center p-4">
+                  <Icon size={32} className="mx-auto mb-3 text-green" />
+                  <h3 className="text-lg font-bold mb-2">{feature.title}</h3>
+                  <p className="text-sm text-muted mb-3">{feature.description}</p>
+                  <ul className="text-left space-y-1">
+                    {feature.functions.map((func) => (
+                      <li key={func} className="text-xs text-muted flex items-center">
+                        <div className="w-1 h-1 bg-green rounded-full mr-2"></div>
+                        {func}
+                      </li>
+                    ))}
+                  </ul>
+                </GlassCard>
+              );
+            })}
           </div>
-        </GlassCard>
-      </section>
+        </section>
+
+        <section>
+          <h2 className="text-xl font-bold mb-6">Data Integration</h2>
+          <GlassCard className="p-6">
+            <p className="text-sm mb-4 text-center">
+              Seamless integration with multiple data sources for comprehensive liquidity visibility.
+            </p>
+            <div className="grid grid-cols-3 gap-3 max-[720px]:grid-cols-1">
+              {dataSources.map((source) => (
+                <div key={source} className="glass-1 glass-border p-3 rounded-lg text-center">
+                  <div className="font-semibold text-sm text-text">{source}</div>
+                </div>
+              ))}
+            </div>
+          </GlassCard>
+        </section>
+      </div>
     </div>
   );
 }
